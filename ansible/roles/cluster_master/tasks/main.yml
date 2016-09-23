@@ -1,0 +1,2 @@
+---
+- include: conf_splunk_cluster_master.yml

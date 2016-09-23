@@ -1,0 +1,9 @@
+- name: splunk restart
+  service:
+    name: splunk
+    state: restarted
+  notify: display splunk url
+
+- name: display splunk url
+  debug:
+    msg: "Splunk host {{ ansible_hostname }} is available @ http://{{ ansible_nodename }}:{{ splunk.web.port }}"

@@ -1,0 +1,29 @@
+---
+- name: install base packages
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
+  with_items:
+    - splunk
+
+- name: accept splunk license
+  become: true
+  command: "{{ splunk.home }}/bin/splunk enable boot-start --accept-license -user splunk"
+  args:
+    creates: /etc/init.d/splunk
+
+- name: create splunk .ui_login file
+  become: true
+  become_user: "{{ splunk.user }}"
+  copy:
+    dest: "{{ splunk.home }}/etc/.ui_login"
+    content: ""
+    force: no
+
+- name: start the splunk service
+  become: true
+  service:
+    name: splunk
+    enabled: yes

@@ -1,0 +1,42 @@
+---
+- hosts: standalone
+  become: true
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+    - { role: base, tags: ['base'] }
+    - { role: splunk, tags: ['splunk'] }
+
+- hosts: cluster_master
+  become: true
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+    - { role: base, tags: ['base'] }
+    - { role: splunk, tags: ['splunk'] }
+    - { role: cluster_master, tags: ['cluster_master'] }
+
+- hosts: indexer
+  become: true
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+  - { role: base, tags: ['base'] }
+  - { role: splunk, tags: ['splunk'] }
+  - { role: indexer, tags: ['indexer'] }
+
+- hosts: search_head
+  become: true
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+  - { role: base, tags: ['base'] }
+  - { role: splunk, tags: ['splunk'] }
+  - { role: search_head, tags: ['search_head'] }
+
+- hosts: universal_forwarder
+  become: true
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+  - { role: base, tags: ['base'] }

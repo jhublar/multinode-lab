@@ -1,0 +1,22 @@
+---
+- name: create the cluster master directory
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ splunk.home }}/etc/apps/cluster_config/local"
+    state: directory
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0755
+
+- name: create server.conf from template
+  become: true
+  become_user: "{{ splunk.user }}"
+  template:
+    src: server.conf.j2
+    dest: "{{ splunk.home }}/etc/apps/cluster_config/local/server.conf"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0600
+    force: no
+  notify: splunk restart

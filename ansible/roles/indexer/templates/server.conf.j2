@@ -1,0 +1,9 @@
+[general]
+allowRemoteLogin = always
+
+[replication_port://{{ splunk.rep.port }}]
+
+[clustering]
+master_uri = https://{{ clm_servers.clm01.name }}:{{ splunk.man.port }}
+mode = {{ cluster.role.idx }}
+pass4SymmKey = {{ cluster.pass4SymmKey }}

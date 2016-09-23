@@ -1,0 +1,11 @@
+[general]
+allowRemoteLogin = always
+
+[clustering]
+cluster_label = {{ cluster.label }}
+access_logging_for_heartbeats = {{ cluster.access_logging_for_heartbeats }}
+max_peer_build_load = {{ cluster.max_peer_build_load }}
+pass4SymmKey = {{ cluster.pass4SymmKey }}
+mode = {{ cluster.role.clm }}
+replication_factor = {{ cluster.replication_factor }}
+search_factor = {{ cluster.search_factor }}
