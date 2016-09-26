@@ -1,9 +1,16 @@
+# Ensure Ansible environment is set before running
+
+if !(ENV['ANSIBLE_ENV'] == nil)
+  environment = ENV['ANSIBLE_ENV']
+else
+  puts "Ansible environment not set, use \"source conf_ansible_env.sh -e environmnet\" to set"
+  exit(1)
+end
+
 default_ram = "256"
 default_box = "centos/7"
-default_env = "dev"
 default_domain = "avocado.lab"
 scripts_path = "scripts"
-environment = ENV['ANSIBLE_ENV'] || default_env
 environment_domain = "#{environment}.#{default_domain}"
 plugins_required = ["shell", "ansible", "landrush", ]
 
@@ -12,9 +19,7 @@ require 'rbconfig'
 
 # Check vagrant plugins are installed
 plugins_required.each { |name|
-  if Vagrant.has_plugin?(name)
-    puts "Plugin #{name} installed"
-  else
+  if !Vagrant.has_plugin?(name)
     puts "Plugin #{name} not installed, this Vagrantfile requires plugin #{name}, please run \"vagrant plugin install #{name}\""
     exit(1)
   end

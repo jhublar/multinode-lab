@@ -1,22 +1,17 @@
 ---
 clm01:
-  box: 'centos-7.2-64-base'
   ram: '512'
   ssh_port: 2400
 shd01:
-  box: 'centos-7.2-64-base'
   ram: '512'
   ssh_port: 2410
 idx01:
-  box: 'centos-7.2-64-base'
   ram: '512'
   ssh_port: 2420
 idx02:
-  box: 'centos-7.2-64-base'
   ram: '512'
   ssh_port: 2421
 mgmt:
-  box: 'centos-7.2-64-base'
   ram: '512'
   ssh_port: 2222
   scripts:
