@@ -1,4 +1,13 @@
 ---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: ensure vagrant key permission
+      tags: ['key_permissions']
+      file:
+        path: ansible/vars/dev/keys/insecure_private_key
+        mode: 0600
+
 - hosts: standalone
   become: true
   vars_files:
