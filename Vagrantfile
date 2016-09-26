@@ -51,6 +51,12 @@ Vagrant.configure("2") do |config|
         v.memory = memory.to_s
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       end
+   
+      guest_config.vm.provider :parallels do |v|
+        v.name = hostname
+        v.cpus = 1
+        v.memory = memory.to_s
+      end
 
       # Only used if directly provisioning - Uncomment below and update ansible inventory file to reflect local ports
       # if( RbConfig::CONFIG["host_os"] =~ /linux/ && name != "mgmt" )
