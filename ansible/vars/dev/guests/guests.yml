@@ -1,22 +1,17 @@
 ---
 clm01:
-  box: "boxcutter/centos72"
   ram: '512'
   ssh_port: 2400
 shd01:
-  box: "boxcutter/centos72"
   ram: '512'
   ssh_port: 2410
 idx01:
-  box: "boxcutter/centos72"
   ram: '512'
   ssh_port: 2420
 idx02:
-  box: "boxcutter/centos72"
   ram: '512'
   ssh_port: 2421
 mgmt:
-  box: "boxcutter/centos72"
   ram: '512'
   ssh_port: 2222
   scripts:
