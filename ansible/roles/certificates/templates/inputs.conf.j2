@@ -1,0 +1,8 @@
+[splunktcp-ssl:{{ splunk.rcv.port }}]
+compressed = true
+
+[SSL]
+password = {{ certs.password }}
+rootCA = {{ splunk.home }}/etc/slave-apps/secure_inputs/certs/{{ certs.cust_name }}_cacert.pem
+serverCert = {{ splunk.home }}/etc/slave-apps/secure_inputs/certs/{{ certs.cust_name }}_server.pem
+requireClientCert = false

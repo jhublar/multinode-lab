@@ -1,0 +1,190 @@
+---
+- name: creates inputs application default folder
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ path.inputs.app }}/default"
+    state: directory
+    group: "{{ splunk.group }}"
+    owner: "{{ splunk.user }}"
+    mode: 0755
+  notify: apply cluster bundle
+
+- name: creates inputs application local folder
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ path.inputs.app }}/local"
+    state: directory
+    group: "{{ splunk.group }}"
+    owner: "{{ splunk.user }}"
+    mode: 0755
+  notify: apply cluster bundle
+
+- name: creates inputs application certs folder
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ path.certs.app }}"
+    state: directory
+    group: "{{ splunk.group }}"
+    owner: "{{ splunk.user }}"
+    mode: 0755
+  notify: apply cluster bundle
+
+- name: generate cakey
+  become: true
+  become_user: "{{ splunk.user }}"
+  command: "openssl req -newkey rsa:1024 -passout pass:{{ certs.password }} -subj /countryName={{ certs.country_code }}/stateOrProvinceName={{ certs.state }}/localityName={{ certs.locality }}/organizationName={{ certs.org_unit }}/commonName={{ certs.common_name }}/ -sha1 -keyout {{ path.certs.app }}/{{ certs.cust_name }}_cakey.pem -out {{ path.certs.app }}/{{ certs.cust_name }}_careq.pem"
+  args:
+    creates: "{{ path.certs.app }}/{{ certs.cust_name }}_cakey.pem"
+  notify: apply cluster bundle
+
+- name: generate cacert
+  become: true
+  become_user: "{{ splunk.user }}"
+  command: "openssl x509 -req -in {{ path.certs.app }}/{{ certs.cust_name }}_careq.pem -passin pass:{{ certs.password }} -sha1 -extensions v3_ca -signkey {{ path.certs.app }}/{{ certs.cust_name }}_cakey.pem -out {{ path.certs.app }}/{{ certs.cust_name }}_cacert.pem -days 3650"
+  args:
+    creates: "{{ path.certs.app }}/{{ certs.cust_name }}_cacert.pem"
+  notify: apply cluster bundle
+
+- name: create private ca
+  become: true
+  become_user: "{{ splunk.user }}"
+  shell:
+    "cat {{ path.certs.app }}/{{ certs.cust_name }}_cacert.pem
+    {{ path.certs.app }}/{{ certs.cust_name }}_cakey.pem >
+    {{ path.certs.app }}/{{ certs.cust_name }}_ca.pem"
+  args:
+    creates: "{{ path.certs.app }}/{{ certs.cust_name }}_ca.pem"
+  notify: apply cluster bundle
+
+- name: create private ca
+  become: true
+  become_user: "{{ splunk.user }}"
+  shell:
+    "cp {{ path.certs.app }}/{{ certs.cust_name }}_cacert.pem {{ path.certs.app }}/cacert.pem"
+  args:
+    creates: "{{ path.certs.app }}/cacert.pem"
+  notify: apply cluster bundle
+
+- name: create private ca
+  become: true
+  become_user: "{{ splunk.user }}"
+  shell:
+    "cp {{ path.certs.app }}/{{ certs.cust_name }}_ca.pem {{ path.certs.app }}/ca.pem"
+  args:
+    creates: "{{ path.certs.app }}/ca.pem"
+  notify: apply cluster bundle
+
+- name: generate server certificate
+  become: true
+  become_user: "{{ splunk.user }}"
+  command: "{{ splunk.home }}/bin/splunk createssl server-cert -d {{ path.certs.app }}/ -n {{ certs.cust_name }}_server -c {{ certs.common_name }}"
+  args:
+    creates: "{{ path.certs.app }}/{{ certs.cust_name }}_server.pem"
+  notify: apply cluster bundle
+
+- name: deployment-apps - create local folder
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ path.deploy.outputs.app }}/local"
+    state: directory
+    group: "{{ splunk.group }}"
+    owner: "{{ splunk.user }}"
+    mode: 0755
+  notify: reload deploy-server
+
+- name: deployment-apps - create default folder
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ path.deploy.outputs.app }}/default"
+    state: directory
+    group: "{{ splunk.group }}"
+    owner: "{{ splunk.user }}"
+    mode: 0755
+  notify: reload deploy-server
+
+- name: deployment-apps - create certs folder
+  become: true
+  become_user: "{{ splunk.user }}"
+  file:
+    path: "{{ path.deploy.outputs.app }}/certs"
+    state: directory
+    group: "{{ splunk.group }}"
+    owner: "{{ splunk.user }}"
+    mode: 0755
+  notify: reload deploy-server
+
+- name: copy certs ca certificate
+  become: true
+  copy:
+    remote_src: yes
+    src: "{{ path.certs.app }}/{{ certs.cust_name }}_cacert.pem"
+    dest: "{{ path.deploy.outputs.app }}/certs/{{ certs.cust_name }}_cacert.pem"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0600
+  notify: reload deploy-server
+
+- name: copy server certificate
+  become: true
+  become_user: "{{ splunk.user }}"
+  copy:
+    remote_src: yes
+    src: "{{ path.certs.app }}/{{ certs.cust_name }}_server.pem"
+    dest: "{{ path.deploy.outputs.app }}/certs/{{ certs.cust_name }}_server.pem"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0600
+  notify: reload deploy-server
+
+- name: create forwarder outputs - outputs.conf
+  become: true
+  become_user: "{{ splunk.user }}"
+  template:
+    src: outputs.conf.j2
+    dest: "{{ path.deploy.outputs.app }}/local/outputs.conf"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0600
+    force: no
+  notify: reload deploy-server
+
+- name: create tcp inputs - inputs.conf
+  become: true
+  become_user: "{{ splunk.user }}"
+  template:
+    src: inputs.conf.j2
+    dest: "{{ path.inputs.app }}/local/inputs.conf"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0600
+    force: no
+  notify: apply cluster bundle
+
+- name: create forwarder outputs - app.conf
+  become: true
+  become_user: "{{ splunk.user }}"
+  template:
+    src: app.conf.j2
+    dest: "{{ path.deploy.outputs.app }}/local/app.conf"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0644
+    force: no
+  notify: reload deploy-server
+
+- name: create serverclass - serverclass.conf
+  become: true
+  become_user: "{{ splunk.user }}"
+  template:
+    src: serverclass.conf.j2
+    dest: "{{ splunk.home }}/etc/system/local/serverclass.conf"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
+    mode: 0644
+    force: no
+  notify: reload deploy-server

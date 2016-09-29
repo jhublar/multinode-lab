@@ -3,3 +3,4 @@ repo/repodata
 repo/*.rpm
 *.retry
 ansible/vars/dev/keys/insecure_private_key
+# Ignore any futher changes to ansible

@@ -1,0 +1,2 @@
+---
+- include: download_splunk_binaries.yml

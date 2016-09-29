@@ -1,0 +1,93 @@
+---
+# Guest SSH Key
+private_ssh_key_name: insecure_private_key
+
+# Splunk Binary Downloads
+splunk_download:
+  splunk:
+    url: 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.5.0&product=splunk&filename=splunk-6.5.0-59c8927def0f-linux-2.6-x86_64.rpm&wget=true'
+    file: splunk-6.5.0-59c8927def0f-linux-2.6-x86_64.rpm
+  splunkforwarder:
+    url: 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.5.0&product=universalforwarder&filename=splunkforwarder-6.5.0-59c8927def0f-linux-2.6-x86_64.rpm&wget=true'
+    file: splunkforwarder-6.5.0-59c8927def0f-linux-2.6-x86_64.rpm
+
+# Cluster nodes
+domain_name: cluster.avocado.lab
+clm_servers:
+  clm01:
+    name: "clm01.{{ domain_name }}"
+shd_servers:
+  shd01:
+    name: "shd01.{{ domain_name }}"
+idx_servers:
+  idx01:
+    name: "idx01.{{ domain_name }}"
+  idx02:
+    name: "idx02.{{ domain_name }}"
+
+# Splunk Cluster Nodes Settings
+splunk:
+  home: /opt/splunk
+  user: splunk
+  group: splunk
+  admin: admin
+  password: changeme
+  man:
+    port: 8089
+  web:
+    port: 8000
+  rep:
+    port: 9887
+  rcv:
+    port: 9997
+
+# Splunkforwarder Settings
+splunkforwarder:
+  linux:
+    home: /opt/splunkforwarder
+    user: splunk
+    group: splunk
+    admin: admin
+    password: changeme
+    man:
+      port: 8089
+
+# Replication Settings
+cluster:
+  replication_factor:               2
+  search_factor:                    1
+  access_logging_for_heartbeats:    1
+  max_peer_build_load:              5
+  pass4SymmKey:                     test.123
+  label:                            "{{ domain_name }}"
+  role:
+    clm: master
+    idx: slave
+    shd: searchhead
+
+# Path for the generation of Certificates
+path:
+  inputs:
+    app: "{{ splunk.home }}/etc/master-apps/secure_inputs"
+  certs:
+    app: "{{ splunk.home }}/etc/master-apps/secure_inputs/certs"
+  deploy:
+    outputs:
+      app: "{{ splunk.home }}/etc/deployment-apps/secure_outputs"
+
+# Certificate Details
+customer_name: avocado
+
+certs:
+  cust_name: "{{ customer_name }}"
+  password: password
+  country_code: AU
+  state: NSW
+  locality: Sydney
+  org_unit: ams@avocadoconsulting.com.au
+  common_name: "{{ customer_name }}CA"
+
+# Application Details - apps.conf
+application:
+  author: "Avocado Consulting"
+  version: 1.0

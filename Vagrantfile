@@ -5,8 +5,9 @@ require 'rbconfig'
 if !(ENV['ANSIBLE_ENV'] == nil)
   environment = ENV['ANSIBLE_ENV']
 else
-  puts "Ansible environment not set, use \"source conf_ansible_env.sh -e environmnet\" to set"
-  exit(1)
+  puts "Ansible environment not set, use \"source conf_ansible_env.sh -e {{ environment }}\" to set and hide this warning >:)"
+  puts "Setting the default environment to cluster, run \"conf_ansible_env.sh -e list\" for a list of environments"
+  environment = "cluster"
 end
 
 # Set the default_box assume virtualbox, or parallels and Centos 7
@@ -72,12 +73,12 @@ Vagrant.configure("2") do |config|
 
       # Only used if directly provisioning - Uncomment below and update ansible inventory file to reflect local ports
       # if( RbConfig::CONFIG["host_os"] =~ /linux/ && name != "mgmt" )
-      #   guest_config.vm.provision "ansible" do |ansible|
-      #     ansible.verbose = "v"
-      #     ansible.playbook = "ansible/playbook.yml"
-      #     ansible.inventory_path = "ansible/vars/#{environment}/inventory/hosts"
-      #     ansible.extra_vars = { vars_location: "#{environment}" }
-      #   end
+        # guest_config.vm.provision "ansible" do |ansible|
+        #   ansible.verbose = "v"
+        #   ansible.playbook = "ansible/playbook.yml"
+        #   ansible.inventory_path = "ansible/vars/#{environment}/inventory/hosts"
+        #   ansible.extra_vars = { vars_location: "#{environment}" }
+        # end
       # end
     end
   end

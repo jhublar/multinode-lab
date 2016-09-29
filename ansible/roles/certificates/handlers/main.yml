@@ -1,0 +1,6 @@
+---
+- include: roles/splunk/handlers/main.yml
+
+- include: roles/cluster_master/handlers/cluster_bundle_handlers.yml
+
+- include: roles/cluster_master/handlers/deploy_server_handlers.yml

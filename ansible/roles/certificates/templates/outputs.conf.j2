@@ -1,0 +1,9 @@
+[tcpout]
+defaultGroup = splunkssl
+
+[tcpout:splunkssl]
+server = {{ idx_servers.idx01.name }}:{{ splunk.rcv.port }}, {{ idx_servers.idx02.name }}:{{ splunk.rcv.port }}
+sslRootCAPath = $SPLUNK_HOME/etc/apps/secure_outputs/certs/{{ certs.cust_name }}_cacert.pem
+sslCertPath = $SPLUNK_HOME/etc/apps/secure_outputs/certs/{{ certs.cust_name }}_server.pem
+sslPassword = {{ certs.password }}
+sslVerifyServerCert = false

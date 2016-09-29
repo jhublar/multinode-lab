@@ -1,0 +1,2 @@
+---
+- include: roles/splunk/handlers/main.yml

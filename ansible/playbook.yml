@@ -1,12 +1,10 @@
 ---
 - hosts: localhost
   connection: local
-  tasks:
-    - name: ensure vagrant key permission
-      tags: ['key_permissions']
-      file:
-        path: ansible/vars/dev/keys/insecure_private_key
-        mode: 0600
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+    - { role: local, tags: ['local'] }
 
 - hosts: standalone
   become: true
@@ -23,6 +21,7 @@
   roles:
     - { role: base, tags: ['base'] }
     - { role: splunk, tags: ['splunk'] }
+    - { role: certificates, tags: ['certificates'] }
     - { role: cluster_master, tags: ['cluster_master'] }
 
 - hosts: indexer
@@ -49,3 +48,4 @@
     - "vars/{{ vars_location }}/site.yml"
   roles:
   - { role: base, tags: ['base'] }
+  - { role: universal_forwarder, tags: ['universal_forwarder'] }

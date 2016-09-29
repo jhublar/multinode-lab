@@ -1,0 +1,15 @@
+---
+- name: download splunk file to repo location
+  get_url:
+    url: "{{ splunk_download.splunk.url }}"
+    dest: "repo/{{ splunk_download.splunk.file }}"
+
+- name: download splunkforwarder file to repo location
+  get_url:
+    url: "{{ splunk_download.splunkforwarder.url }}"
+    dest: "repo/{{ splunk_download.splunkforwarder.file }}"
+
+- name: ensure vagrant key permission
+  file:
+    path: "ansible/vars/{{ vars_location }}/keys/{{ private_ssh_key_name }}"
+    mode: 0600
