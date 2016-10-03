@@ -71,14 +71,14 @@ Vagrant.configure("2") do |config|
         v.memory = memory.to_s
       end
 
+      #if( RbConfig::CONFIG["host_os"] =~ /linux/ && name != "mgmt" )
       # Only used if directly provisioning - Uncomment below and update ansible inventory file to reflect local ports
-      # if( RbConfig::CONFIG["host_os"] =~ /linux/ && name != "mgmt" )
-        # guest_config.vm.provision "ansible" do |ansible|
-        #   ansible.verbose = "v"
-        #   ansible.playbook = "ansible/playbook.yml"
-        #   ansible.inventory_path = "ansible/vars/#{environment}/inventory/hosts"
-        #   ansible.extra_vars = { vars_location: "#{environment}" }
-        # end
+      #   guest_config.vm.provision "ansible" do |ansible|
+      #     ansible.verbose = "v"
+      #     ansible.playbook = "ansible/playbook.yml"
+      #     ansible.inventory_path = "ansible/vars/#{environment}/inventory/hosts"
+      #     ansible.extra_vars = { vars_location: "#{environment}" }
+      #   end
       # end
     end
   end

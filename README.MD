@@ -5,7 +5,52 @@ This will install a multinode vagrant environment for the purpose of:
 - Testing of configurations in a local environment
 - Development of splunk application for multi-node splunk environment
 
-## Reqiurements: ##
+## Requirements: ##
+
+### Ansible ###
+- All Playbooks have been written for ansible version 2.1.1.0
+- Note ansible version 2.1.2.0, released on the 30th of September changes the relative path from where the playbook was run from to the relative path of where the playbook sits.
+- Note ansible version 2.1.2.0, exhibitied behaviours with connectivity issues
+
+```TASK [setup] *******************************************************************
+fatal: [idx01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh.", "unreachable": true}
+fatal: [idx02]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh.", "unreachable": true}
+
+PLAY RECAP *********************************************************************
+clm01                      : ok=29   changed=0    unreachable=0    failed=0
+idx01                      : ok=0    changed=0    unreachable=1    failed=0
+idx02                      : ok=0    changed=0    unreachable=1    failed=0
+localhost                  : ok=8    changed=0    unreachable=0    failed=0```
+
+```$ ansible -m ping all
+shd02 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+shd01 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+idx02 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+idx01 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+localhost | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+clm01 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+ufw01 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}```
 
 ### Internet Connectivity: ###
 - Yes! The faster the connectivity the better. The "mgmt" vagrant node installs ansible from the internet, if internet connectivity is an issue I suggest baking the install of ansible into the vagrant box and specifying a custom box in the guests.yml file for your environment

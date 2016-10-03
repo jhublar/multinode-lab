@@ -30,6 +30,12 @@ function set_environment()
 
     for i in "${environments[@]}"
     do
+      length=$((${#i}-1))
+
+      if [ "/" == "${i:$length:1}" ];then
+        i="${i:0:$length}"
+      fi
+
       if [ "$ANSIBLE_ENVIRONMENT" == "$i" ]; then
         echo "Setting Environment to $ANSIBLE_ENVIRONMENT"
         export ANSIBLE_CONFIG="${PWD}/ansible/vars/${ANSIBLE_ENVIRONMENT}/ansible.cfg"
@@ -49,6 +55,12 @@ function set_environment()
 
       for i in "${environments[@]}"
       do
+        length=$((${#i}-1))
+
+        if [ "/" == "${i:$length:1}" ];then
+          i="${i:0:$length}"
+        fi
+
         echo " - $i"
       done
     fi

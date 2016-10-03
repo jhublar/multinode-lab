@@ -21,6 +21,6 @@ wget -o ~/get-pip.py https://bootstrap.pypa.io/get-pip.py
 python /home/vagrant/get-pip.py
 
 # Install Ansible and supporting packages
-pip install paramiko PyYAML Jinja2 httplib2 six ansible
+pip install paramiko PyYAML Jinja2 httplib2 six ansible==2.1.1.0
 
 rm /home/vagrant/get-pip.py

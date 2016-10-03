@@ -13,3 +13,37 @@
   file:
     path: "ansible/vars/{{ vars_location }}/keys/{{ private_ssh_key_name }}"
     mode: 0600
+
+- name: install base packages
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
+  with_items:
+    - nano
+    - createrepo
+  when: ansible_system == "Linux"
+
+- name: register repodata
+  stat:
+    path: repo/repodata/repomd.xml
+  register: repodata
+  when: ansible_system == "Linux"
+
+- name: register repodata mtime
+  debug:
+    msg: "{{ repodata.stat.mtime|int }}"
+  register: repodata_mtime
+  when: ansible_system == "Linux"
+
+- name: register current time
+  debug:
+    msg: "{{ ansible_date_time.epoch|int-86400 }}"
+  register: current_time
+  when: ansible_system == "Linux"
+
+- name: create splunk repo
+  become: true
+  command: createrepo /vagrant/repo/
+  when: (current_time > repodata_mtime and ansible_system == "Linux")

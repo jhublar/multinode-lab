@@ -1,3 +1,4 @@
+*test-playbook.yml
 .vagrant/*
 repo/repodata
 repo/*.rpm
