@@ -1,0 +1,24 @@
+# Ansible only runs on Linux or Unix based machines as a workaround, we
+# create mgmt.cluster.avocado.lab as a provisioning servers for the environment
+# Uncomment if running ansible directly from the host machine
+# clm01       ansible_port=2400 ansible_host=127.0.0.1
+# shd01       ansible_port=2410 ansible_host=127.0.0.1
+# shd02       ansible_port=2411 ansible_host=127.0.0.1
+# idx01       ansible_port=2420 ansible_host=127.0.0.1
+# idx02       ansible_port=2421 ansible_host=127.0.0.1
+# ufw01       ansible_port=2450 ansible_host=127.0.0.1
+localhost   ansible_port=22   ansible_host=127.0.0.1
+
+[search_head]
+shd01
+shd02
+
+[cluster_master]
+clm01
+
+[indexer]
+idx01
+idx02
+
+[universal_forwarder]
+ufw01

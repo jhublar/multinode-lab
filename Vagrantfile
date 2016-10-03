@@ -1,29 +1,37 @@
-# Ensure Ansible environment is set before running
-
-if !(ENV['ANSIBLE_ENV'] == nil)
-  environment = ENV['ANSIBLE_ENV']
-else
-  puts "Ansible environment not set, use \"source conf_ansible_env.sh -e environmnet\" to set"
-  exit(1)
-end
-
-default_ram = "256"
-default_box = "centos/7"
-default_domain = "avocado.lab"
-scripts_path = "scripts"
-environment_domain = "#{environment}.#{default_domain}"
-plugins_required = ["shell", "ansible", "landrush", ]
-
 require 'yaml'
 require 'rbconfig'
 
+# Ensure Ansible environment is set before running
+if !(ENV['ANSIBLE_ENV'] == nil)
+  environment = ENV['ANSIBLE_ENV']
+else
+  puts "Ansible environment not set, use \"source conf_ansible_env.sh -e {{ environment }}\" to set and hide this warning >:)"
+  puts "Setting the default environment to cluster, run \"conf_ansible_env.sh -e list\" for a list of environments"
+  environment = "cluster"
+end
+
+# Set the default_box assume virtualbox, or parallels and Centos 7
+if (ENV['VAGRANT_DEFAULT_PROVIDER'] == nil)
+  default_box = "centos/7"
+elsif (ENV['VAGRANT_DEFAULT_PROVIDER'] == 'parallels')
+  default_box = "boxcutter/centos72"
+end
+
 # Check vagrant plugins are installed
+plugins_required = ["shell", "ansible", "landrush", ]
+
 plugins_required.each { |name|
   if !Vagrant.has_plugin?(name)
     puts "Plugin #{name} not installed, this Vagrantfile requires plugin #{name}, please run \"vagrant plugin install #{name}\""
     exit(1)
   end
 }
+
+default_box = "centos/7"
+default_ram = "256"
+default_domain = "avocado.lab"
+scripts_path = "scripts"
+environment_domain = "#{environment}.#{default_domain}"
 
 guests = YAML.load(File.open(File.join(File.dirname(__FILE__), "ansible/vars/#{environment}/guests/guests.yml"), File::RDONLY).read)
 
@@ -57,8 +65,14 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       end
 
+      guest_config.vm.provider :parallels do |v|
+        v.name = hostname
+        v.cpus = 1
+        v.memory = memory.to_s
+      end
+
+      #if( RbConfig::CONFIG["host_os"] =~ /linux/ && name != "mgmt" )
       # Only used if directly provisioning - Uncomment below and update ansible inventory file to reflect local ports
-      # if( RbConfig::CONFIG["host_os"] =~ /linux/ && name != "mgmt" )
       #   guest_config.vm.provision "ansible" do |ansible|
       #     ansible.verbose = "v"
       #     ansible.playbook = "ansible/playbook.yml"

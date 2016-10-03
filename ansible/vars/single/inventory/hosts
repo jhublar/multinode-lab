@@ -1,0 +1,8 @@
+# Ansible only runs on Linux or Unix based machines as a workaround, we
+# create mgmt.avocado.lab as a provisioning servers for the environment
+# Uncomment if running ansible directly from the host machine
+# spl01     ansible_port=2500 ansible_host=127.0.0.1
+localhost   ansible_port=22   ansible_host=127.0.0.1
+
+[standalone]
+spl01

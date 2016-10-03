@@ -1,4 +1,11 @@
 ---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - "vars/{{ vars_location }}/site.yml"
+  roles:
+    - { role: local, tags: ['local'] }
+
 - hosts: standalone
   become: true
   vars_files:
@@ -14,6 +21,7 @@
   roles:
     - { role: base, tags: ['base'] }
     - { role: splunk, tags: ['splunk'] }
+    - { role: certificates, tags: ['certificates'] }
     - { role: cluster_master, tags: ['cluster_master'] }
 
 - hosts: indexer
@@ -40,3 +48,4 @@
     - "vars/{{ vars_location }}/site.yml"
   roles:
   - { role: base, tags: ['base'] }
+  - { role: universal_forwarder, tags: ['universal_forwarder'] }

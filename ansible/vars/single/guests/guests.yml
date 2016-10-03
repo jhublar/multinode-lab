@@ -1,0 +1,12 @@
+---
+spl01:
+  ram: '512'
+  ssh_port: 2500
+  box: 'centos-7.2-64-base'
+mgmt:
+  ram: '512'
+  ssh_port: 2222
+  box: 'centos-7.2-64-base'
+  scripts:
+    - 'ansible_install'
+    - 'setup_bash_profile'

@@ -1,0 +1,40 @@
+---
+- name: install base packages
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
+  with_items:
+    - splunkforwarder
+
+- name: accept splunk license
+  become: true
+  command: "{{ splunkforwarder.linux.home }}/bin/splunk enable boot-start --accept-license -user {{ splunkforwarder.linux.user }}"
+  args:
+    creates: /etc/init.d/splunk
+
+- name: create splunk .ui_login file
+  become: true
+  become_user: "{{ splunkforwarder.linux.user }}"
+  copy:
+    dest: "{{ splunkforwarder.linux.home }}/etc/.ui_login"
+    content: ""
+    force: no
+
+- name: create forwarder deploymentclient configuration - deploymentclient.conf
+  become: true
+  become_user: splunk
+  template:
+    src: deploymentclient.conf.j2
+    dest: "{{ splunkforwarder.linux.home }}/etc/system/local/deploymentclient.conf"
+    owner: splunk
+    group: splunk
+    mode: 0644
+  notify: splunk restart
+
+- name: start the splunk service
+  become: true
+  service:
+    name: "{{ splunkforwarder.linux.user }}"
+    enabled: yes

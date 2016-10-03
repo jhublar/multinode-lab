@@ -1,20 +1,4 @@
 ---
-- name: install base packages
-  become: true
-  yum:
-    name: "{{ item }}"
-    state: installed
-    update_cache: yes
-  with_items:
-    - nano
-    - createrepo
-
-- name: create splunk repo
-  become: true
-  command: createrepo /vagrant/repo/
-  args:
-    creates: /vagrant/repo/repodata
-
 - name: register splunk repo
   stat:
     path: /etc/yum.repos.d/splunk.repo
