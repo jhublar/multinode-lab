@@ -84,8 +84,10 @@ A powerful desktop or laptop, my specs are below and is giving good CPU / RAM / 
 
 2. The following error can occur in the event of a DNS failure with landrush (on Mac OS X)
 
-    ```RUNNING HANDLER [splunk : splunk restart] **************************************
-fatal: [idx01]: FAILED! => {"changed": false, "failed": true, "msg": "Job for splunk.service failed because a timeout was exceeded. See \"systemctl status splunk.service\" and \"journalctl -xe\" for details.\n"}```
+    ```
+    RUNNING HANDLER [splunk : splunk restart] **************************************
+    fatal: [idx01]: FAILED! => {"changed": false, "failed": true, "msg": "Job for splunk.service failed because a timeout was exceeded. See \"systemctl status splunk.service\" and \"journalctl -xe\" for details.\n"}
+    ```
 
     Confirm the issue is with DNS cache by pinging the dns names.
 
