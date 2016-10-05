@@ -136,7 +136,7 @@ Two types of Splunk Environments have been configured "cluster" and "single", cl
 
 3. __replaced with ansible tasks__ - Ensure the vagrant private key under that ansible folder (ansible/vars/{{ environment }}/keys/insecure_private_key) has the correct permission (chmod 0600)
 
-Note. Running "vagrant up" will check to see if the ansible environment variables have been set prior to execution. If ansible environmental variable are not set, use "source conf_ansible_env.sh -e {{ environment }} -p {{ vagrant_provider }}" to set the provider and environment, default vagrant provider is virtualbox, and default environment is cluster
+  Note. Running "vagrant up" will check to see if the ansible environment variables have been set prior to execution. If ansible environmental variable are not set, use "source conf_ansible_env.sh -e {{ environment }} -p {{ vagrant_provider }}" to set the provider and environment, default vagrant provider is virtualbox, and default environment is cluster
 
     - Running "./conf_ansible_env.sh -e list" to see a list of environments
 
