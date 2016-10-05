@@ -19,7 +19,7 @@ ufw01:
   ssh_port: 2450
 mgmt:
   ram: '512'
-  ssh_port: 2222
+  ssh_port: 2333
   scripts:
     - 'ansible_install'
     - 'setup_bash_profile'

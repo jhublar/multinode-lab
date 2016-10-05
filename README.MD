@@ -10,6 +10,7 @@ This will install a multinode vagrant environment for the purpose of:
 
 ### Ansible ###
 - All Playbooks have been written for ansible version 2.1.1.0
+- Note Ansbile is not needed on the host machine it will be installed on the mgmt guest machine
 - Note ansible version 2.1.2.0, released on the 30th of September changes the use of relative paths from where the playbook was run from to the relative path of where the playbook sits.
 - Note ansible version 2.1.2.0, exhibitied behaviours with connectivity issues see output below, ansible pings are successful but playbooks will not connect
 
@@ -110,22 +111,41 @@ A powerful desktop or laptop, my specs are below and is giving good CPU / RAM / 
 
 ## To run ##
 
+Two types of Splunk Environments have been configured "cluster" and "single", cluster will be selected by default.  The virtual box nodes that will be power on for each environment are as follows:
+
+##### __Environment: Cluster__ #####
+
+    - clm01.cluster.avocado.lab
+    - shd01.cluster.avocado.lab
+    - shd02.cluster.avocado.lab
+    - idx01.cluster.avocado.lab
+    - idx02.cluster.avocado.lab
+    - ufw01.cluster.avocado.lab
+    - mgmt.cluster.avocado.lab
+
+##### __Environment: Single__ #####
+
+    - spl01.single.avocado.lab
+    - mgmt.single.avocado.lab
+
+### Instructions ###
+
 1. Checkout the Git Repo
 
-2. Download the Splunk binaries to the repo/ folder, seen repo/readme for wget urls - __replaced with ansible tasks__
+2. __replaced with ansible tasks__ - Download the Splunk binaries to the repo/ folder, seen repo/readme for wget urls
 
-3. Ensure the vagrant private key under that ansible folder (ansible/vars/dev/keys/insecure_private_key) has the correct permission (chmod 0600) - __replaced with ansible tasks__
+3. __replaced with ansible tasks__ - Ensure the vagrant private key under that ansible folder (ansible/vars/{{ environment }}/keys/insecure_private_key) has the correct permission (chmod 0600)
 
-4. Running "vagrant up" will check to see if the ansible environment variables have been set prior to execution. If ansible environmental variable are not set, use "source conf_ansible_env.sh -e {{ environment }} -p {{ vagrant_provider }}" to set the provider and environment, default vagrant provider is virtualbox, and default environment is cluster
+Note. Running "vagrant up" will check to see if the ansible environment variables have been set prior to execution. If ansible environmental variable are not set, use "source conf_ansible_env.sh -e {{ environment }} -p {{ vagrant_provider }}" to set the provider and environment, default vagrant provider is virtualbox, and default environment is cluster
 
     - Running "./conf_ansible_env.sh -e list" to see a list of environments
 
     - Running "./conf_ansible_env.sh -p list" to see a list of providers
 
-5. Once the environment variables have been set use vagrant up to power on the virtual machines, and configure the splunk instances.
+4. Once the environment variables have been set use vagrant up to power on the virtual machines, and configure.
 
-6. ssh to the mgmt box "vagrant ssh mgmt" and "cd /vagrant", set the environment variable (use step 4 documented above).
+5. ssh to the mgmt box "vagrant ssh mgmt" and "cd /vagrant", set the environment variable in the mgmt box (use step 3 documented above).
 
-7. Execute the ansible run command: ./run_main_play.sh, note the last task on each host should give the URL of the Splunk web interface.
+6. Execute the ansible run command: ./run_main_play.sh, note the last task on each host should give the URL of the Splunk web interface.
 
-8. Default Password for all Splunk instances are admin/changeme
+7. Default Password for all Splunk instances are admin/changeme
