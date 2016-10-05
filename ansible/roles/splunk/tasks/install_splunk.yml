@@ -21,6 +21,7 @@
     dest: "{{ splunk.home }}/etc/.ui_login"
     content: ""
     force: no
+  notify: splunk restart
 
 - name: start the splunk service
   become: true

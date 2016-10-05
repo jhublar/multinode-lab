@@ -35,15 +35,15 @@
   debug:
     msg: "{{ repodata.stat.mtime|int }}"
   register: repodata_mtime
-  when: ansible_system == "Linux"
+  when: ansible_system == "Linux" and repodata.stat.exists == True
 
 - name: register current time
   debug:
     msg: "{{ ansible_date_time.epoch|int-86400 }}"
-  register: current_time
-  when: ansible_system == "Linux"
+  register: current_time_minus_a_day
+  when: ansible_system == "Linux" and repodata.stat.exists == True
 
 - name: create splunk repo
   become: true
   command: createrepo /vagrant/repo/
-  when: (current_time > repodata_mtime and ansible_system == "Linux")
+  when: (current_time_minus_a_day > repodata_mtime and ansible_system == "Linux") or (ansible_system == "Linux" and repodata.stat.exists == False)

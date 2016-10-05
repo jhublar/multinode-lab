@@ -5,6 +5,7 @@
     - "vars/{{ vars_location }}/site.yml"
   roles:
     - { role: local, tags: ['local'] }
+    - { role: base, tags: ['base'], when: ansible_system == "Linux" }
 
 - hosts: standalone
   become: true

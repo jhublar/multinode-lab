@@ -1,2 +1,4 @@
 ---
+- include: set_timezone.yml
+
 - include: splunk_repo.yml

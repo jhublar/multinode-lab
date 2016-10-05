@@ -2,31 +2,24 @@
 clm01:
   ram: '512'
   ssh_port: 2400
-  box: 'centos-7.2-64-base'
 shd01:
   ram: '512'
   ssh_port: 2410
-  box: 'centos-7.2-64-base'
 shd02:
   ram: '512'
   ssh_port: 2411
-  box: 'centos-7.2-64-base'
 idx01:
   ram: '512'
   ssh_port: 2420
-  box: 'centos-7.2-64-base'
 idx02:
   ram: '512'
   ssh_port: 2421
-  box: 'centos-7.2-64-base'
 ufw01:
   ram: '512'
   ssh_port: 2450
-  box: 'centos-7.2-64-base'
 mgmt:
   ram: '512'
-  ssh_port: 2222
-  box: 'centos-7.2-64-base'
+  ssh_port: 2333
   scripts:
     - 'ansible_install'
     - 'setup_bash_profile'
