@@ -1,7 +1,0 @@
-Place Splunk binaries in this folders to create repo for installation.
-
-# To Download version 6.4.3 of the Splunk binary use the following command
-wget -O splunk-6.4.3-b03109c2bad4-linux-2.6-x86_64.rpm 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.4.3&product=splunk&filename=splunk-6.4.3-b03109c2bad4-linux-2.6-x86_64.rpm&wget=true'
-
-# To Download version 6.4.3 of the Splunk Universal forwarder binary use the following command.
-wget -O splunkforwarder-6.4.3-b03109c2bad4-linux-2.6-x86_64.rpm 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.4.3&product=universalforwarder&filename=splunkforwarder-6.4.3-b03109c2bad4-linux-2.6-x86_64.rpm&wget=true'
