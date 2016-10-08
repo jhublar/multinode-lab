@@ -4,8 +4,8 @@
   vars_files:
     - "vars/{{ vars_location }}/site.yml"
   roles:
-    - { role: local, tags: ['local'] }
-    - { role: base, tags: ['base'], when: ansible_system == "Linux" }
+    - { role: repo, tags: ['repo'] }
+    - { role: base, tags: ['base'] }
 
 - hosts: standalone
   become: true
