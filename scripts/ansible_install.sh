@@ -2,6 +2,7 @@
 
 # Install supporting packages
 yum -y install python-pip \
+		gcc \
 		PyYAML \
 		python-jinja2 \
 		python-httplib2 \
