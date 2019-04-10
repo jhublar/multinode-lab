@@ -29,7 +29,7 @@ plugins_required.each { |name|
 
 default_box = "centos/7"
 default_ram = "256"
-default_domain = "avocado.lab"
+default_domain = "splunk.lab"
 scripts_path = "scripts"
 environment_domain = "#{environment}.#{default_domain}"
 
