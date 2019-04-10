@@ -94,18 +94,18 @@ A powerful desktop or laptop, my specs are below and is giving good CPU / RAM / 
 
 ##### __Environment: Cluster__ #####
 
-    - clm01.cluster.avocado.lab
-    - shd01.cluster.avocado.lab
-    - shd02.cluster.avocado.lab
-    - idx01.cluster.avocado.lab
-    - idx02.cluster.avocado.lab
-    - ufw01.cluster.avocado.lab
-    - mgmt.cluster.avocado.lab
+    - clm01.cluster.splunk.lab
+    - shd01.cluster.splunk.lab
+    - shd02.cluster.splunk.lab
+    - idx01.cluster.splunk.lab
+    - idx02.cluster.splunk.lab
+    - ufw01.cluster.splunk.lab
+    - mgmt.cluster.splunk.lab
 
 ##### __Environment: Single__ #####
 
-    - spl01.single.avocado.lab
-    - mgmt.single.avocado.lab
+    - spl01.single.splunk.lab
+    - mgmt.single.splunk.lab
 
     If DNS resolution to these URLs above fail, run the ./clear_dns_cache.sh to clear the DNS cache
 
@@ -115,18 +115,18 @@ Two types of Splunk Environments have been configured "cluster" and "single", cl
 
 ##### __Environment: Cluster__ #####
 
-    - clm01.cluster.avocado.lab
-    - shd01.cluster.avocado.lab
-    - shd02.cluster.avocado.lab
-    - idx01.cluster.avocado.lab
-    - idx02.cluster.avocado.lab
-    - ufw01.cluster.avocado.lab
-    - mgmt.cluster.avocado.lab
+    - clm01.cluster.splunk.lab
+    - shd01.cluster.splunk.lab
+    - shd02.cluster.splunk.lab
+    - idx01.cluster.splunk.lab
+    - idx02.cluster.splunk.lab
+    - ufw01.cluster.splunk.lab
+    - mgmt.cluster.splunk.lab
 
 ##### __Environment: Single__ #####
 
-    - spl01.single.avocado.lab
-    - mgmt.single.avocado.lab
+    - spl01.single.splunk.lab
+    - mgmt.single.splunk.lab
 
 ### Instructions ###
 
