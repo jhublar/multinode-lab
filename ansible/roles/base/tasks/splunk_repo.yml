@@ -15,6 +15,6 @@
     name: splunk-repo
     description: Splunk
     file: splunk
-    baseurl: "http://mgmt.{{ vars_location }}.avocado.lab/repo"
+    baseurl: "http://mgmt.{{ vars_location }}.splunk.lab/repo"
     gpgcheck: no
     enabled: yes
